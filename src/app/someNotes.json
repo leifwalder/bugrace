@@ -1,0 +1,29 @@
+{
+  "todo": [
+
+    "[ ] can we get a tileset-look by using border-radius and border?",
+
+
+    
+    "[X] Eliminate codeDuplication",
+    "[X] change 'dataService' to 'd' ",
+    "[x] Make each racer have its own nodes",
+
+    "[x] reCalculate aStar() for racer if path is blocked or no valid path",
+      "[x] remove all console.logs from aStar()",
+      "[x] check if blocked by other racer when moveStep() ",
+      "[x] if blocked, recalcAstar()",
+      "[x] what to do when no valid path?",
+
+    "[x] calc aStar() EVERYTURN",
+
+    "[x] handle longer steps, like look at your die and take 1-3 steps at a time",
+      "[x] pick third in path",
+      "[x] keep track of skipped nodes",
+      "[x] if chosen is blocked, dont recalculate, but take a shorter path",
+
+    "[x] experiment with transtion ",
+
+
+  ]
+}

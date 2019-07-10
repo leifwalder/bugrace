@@ -1,0 +1,15 @@
+<!--<h1 mat-dialog-title>Hi {{data.name}}</h1> -->
+<img 
+  [src]="d.imgUrls.narrator"
+  style="width:100px;height:100px;filter: sepia(1) hue-rotate(200deg)"/>
+<div mat-dialog-content>
+  <p *ngIf="data"> {{ data?.message }} </p>
+  <!--<mat-form-field>
+    <input matInput [(ngModel)]="data.animal">
+  </mat-form-field> -->
+</div>
+<div mat-dialog-actions>
+  <!--<button mat-button (click)="onNoClick()">No Thanks</button>-->
+  <!--<button mat-button [mat-dialog-close]="data.animal" cdkFocusInitial>Ok</button>-->
+  <button mat-button [mat-dialog-close]="" cdkFocusInitial>Ok</button>
+</div>

@@ -1,0 +1,53 @@
+<div  
+  *ngIf="isInit"
+  class="avatar" 
+  [style.color]="racer.clr" 
+  [style.margin-left]="getHtmlX(d.offsetX)" 
+  [style.margin-top]="getHtmlY(d.offsetY)"
+  [style.fontSize]="d.css.avatarFontSize"
+  [style.paddingTop]="d.css.paddingTop"
+  [style.transitionDuration]="d.loopMilliseconds/1000+'s'"
+  [style.transitionTimingFunction]="transitionTiming"
+  >
+	  {{ (racer.isStunned) ? '?' : d.startChar }}
+
+    <div 
+      class="fx" 
+      [class.is-stunned]="racer.isStunned"
+      [style.width]="d.cellSize*2+'px'"
+      [style.height]="d.cellSize*2+'px'"
+      [style.transitionDuration]="d.loopMilliseconds/1000+'s'"
+      [style.transitionTimingFunction]="transitionTiming"
+      [style.backgroundColor]="(racer.isStunned) ? 'rgba(255, 255, 0, 0.5)' : 'rgba(0, 0, 0, 0)'"
+
+      > <!--       [style.border]="(racer.isStunned) ? '3px dashed yellow' : '0px solid transparent'" -->
+    </div>
+
+    <div 
+      class="highlighter" 
+      [class.is-selected]="racer.isSelected"
+      [style.width]="'50px'"
+      [style.height]="'50px'"
+      [style.top]="-(25-d.cellSize/5)+2+'px'"
+      [style.left]="-(25-d.cellSize/5)+2+'px'"
+      [style.borderColor]="racer.clr">
+    </div>
+
+
+
+</div>
+
+<!-- 
+    /*
+    linear
+    ease
+    ease-in
+    ease-out
+    ease-in-out
+  */
+-->
+
+<!--
+  [style.right]="getHtmlX(offsetX)" 
+  [style.top]="getHtmlY(offsetY)"
+-->

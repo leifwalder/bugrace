@@ -1,0 +1,171 @@
+<mat-toolbar>
+  <div class="cash-status">
+    <mat-icon>attach_money</mat-icon>
+    <div>
+      {{ cash }}
+    </div>
+  </div>
+  <div class="player-title">
+    <div>
+      {{ playerTitle }}
+    </div>
+  </div>
+  <button mat-button (click)="resetRace()">
+    Reset
+  </button>
+  <div class="day-status">
+    <mat-icon>brightness_medium</mat-icon>
+    <div>
+      {{ dayCount }}
+    </div>
+  </div>
+</mat-toolbar>
+
+<div #wrapper class="map-wrapper" *ngIf="isInit" > <!-- [style.width]="d.boardWidth + 'px'" -->
+  <div class="overlay" 
+    (click)="dismissOverlay()"
+    [style.display]="(isRaceStarted || !showOverlay) ? 'none' : 'flex'"
+    [class.proc]="isRaceStarted">
+    <div class="message" [style.color]="winnerColor">
+      {{ message.hint }}
+    </div>
+  </div>
+  <div *ngIf="isRacersInit">
+    <racer-component 
+    class="racer" 
+    *ngFor="let racer of d.racers"
+    [racer]="racer"
+    [map]="map">
+    </racer-component>
+  </div>
+  <div class="column" *ngFor="let column of map">
+    <div 
+      *ngFor="let tile of column"
+        class="tile-bg"
+        [class.obstacle-bg]="d.isObstacle(tile)"
+        [class.walkable-bg]="d.isTraversable(tile)">
+        <div 
+          class="tile no-select" 
+          [class.obstacle]="d.isObstacle(tile)"
+          [style.width]="d.css.cellSize"
+          [style.height]="d.css.cellSize"
+          [style.fontSize]="d.css.fontSize"
+          [style.paddingTop]="d.css.paddingTop"
+          [style.borderRadius]="tile.css.borderRadius"
+          [style.transitionDuration]="d.loopMilliseconds/500+'s'"
+          [style.transitionTimingFunction]="'ease'"
+
+          (touchstart)="handleEvent(tile, $event)"
+          (touchend)="eventEnd(tile, $event)"
+          (panmove)="keepEventAlive(tile, $event)"> 
+          <!-- 
+            (dragstart)="mouseDown(tile, $event)"
+            (click)="mouseDown(tile, $event)"
+            (mouseenter)="mouseEnter(tile, $event)"
+            (mouseup)="mouseUp(tile, $event)"
+            [matTooltip]="tooltip(tile)" 
+          -->
+          {{ tile.char }}
+        </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="sub-menu">
+  <button mat-button (click)="startLoop()">
+    start loop
+  </button>
+  <button mat-button (click)="stopLoop()">
+    stop loop
+  </button>
+  <button mat-button (click)="logRacersComp()">
+    log
+  </button>
+  <button 
+    mat-button 
+    *ngIf="shortestPath && shortestPath.length > 0" 
+    (click)="moveOneStep()">
+      Move One Step
+  </button>
+  <button 
+    mat-button 
+    *ngIf="racers" 
+    (click)="logRacers()">
+      Log Racers
+  </button>
+</div>
+
+
+<mat-list 
+  class="racer-list" 
+  *ngIf="isInit">
+  <div 
+    *ngFor="let racer of d.racers"
+    class="racer-info-wrapper"
+    [style.backgroundColor]="'rgb('+(255-racer.bet*2).toString()+', 255, '+(255-racer.bet*2).toString()+')'">
+    <mat-list-item>
+
+      <!-- INCREASE / DECREASE BET -->
+      <div class="bet-control-wrapper">
+        <button 
+        mat-icon-button
+        (click)="increaseBetOn(racer)">
+          <mat-icon>add</mat-icon>
+        </button>
+          
+        <div class="bet-value-wrapper">
+          <mat-icon class="cash-icon">attach_money</mat-icon>
+          <div class="bet-value" [hidden]="racer.bet <= 0">
+            {{ racer.bet }}
+          </div>
+        </div>
+
+        <button 
+        mat-icon-button
+        (click)="decreaseBetOn(racer)">
+          <mat-icon>remove</mat-icon>
+        </button>
+      </div>
+
+      <!-- PORTRAIT -->
+      <div class="portrait-frame">
+        <mat-icon 
+          (click)="d.selectRacer(racer)"
+          class="racer-icon"
+          [style.color]="racer.clr">
+            bug_report
+        </mat-icon>
+      </div>
+      <div class="racer-name">
+        {{ racer.name }}
+      </div>
+
+
+      <!--<div class="racer-lap">lap: {{ racer.lap }}</div>-->
+
+      <div class="racer-die-wrapper">
+
+        <!-- <div class="die-content">{{ racer.die.toString() }} </div> -->
+        <div class="die-content"> 
+          <div *ngFor="let face of racer.die; let i = index">
+            <div *ngIf="d.isNumber(face)">
+               {{(i !== 0) ? ',' : ''}} {{ face }}
+            </div>
+            <div *ngIf="!d.isNumber(face)" class="ability">
+              <mat-icon [matTooltip]="face">{{ d.abilityLib[face].icon }}</mat-icon>
+            </div>
+          </div> 
+          
+        </div>
+        <mat-icon class="racer-die-icon">casino</mat-icon>
+
+      </div>
+      <div></div>
+    </mat-list-item>
+    <mat-divider></mat-divider>
+  </div>
+</mat-list>
+
+
+
